@@ -1,5 +1,6 @@
-import { PORT } from 'src/configuration';
-import { getApp } from 'src/app';
+import { getApp } from './app';
+
+const PORT: string = process.env.PORT || '4000';
 
 const startServer = () => {
     try {
