@@ -1,0 +1,99 @@
+{
+    "root": true,
+    "extends": [
+        "airbnb-base",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:react/recommended",
+        "prettier",
+        "prettier/@typescript-eslint"
+    ],
+    "plugins": [
+        "react",
+        "react-hooks",
+        "prettier",
+        "@typescript-eslint"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts",".tsx"]
+            }
+        }
+    },
+    "env": {
+        "es6": true,
+        "node": true,
+        "jest": true
+    },
+    "rules": {
+        "no-param-reassign": "off",
+        "import/no-cycle": "off",
+        "import/namespace": "off",
+        "import/extensions": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }],
+        "@typescript-eslint/array-type": ["error", { "default": "array" }],
+        "react/jsx-filename-extension": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "error",
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": [
+                    "webpack.config.dev.js",
+                    "webpack.config.prod.js",
+                    "**/*.test.ts",
+                    "**/*.test.tsx",
+                    "**/*.spec.ts",
+                    "**/*.spec.tsx",
+                    ".storybook/**",
+                    "**/*.story.tsx"
+                ]
+            }
+        ],
+        "arrow-body-style": ["error", "as-needed"],
+        "import/no-named-as-default": "off",
+        "import/prefer-default-export": "off",
+        "import/no-named-as-default-member": "off",
+        "no-underscore-dangle": "off",
+        "prefer-destructuring": "off",
+        "lines-between-class-members": "off",
+        "no-restricted-globals": "off",
+        "camelcase": "off",
+        "prettier/prettier": ["error", {"parser": "typescript"}],
+        "react/no-unused-prop-types": "off",
+        "react/require-default-props": "off",
+        "react/prop-types": "off",
+        "react/sort-comp": "off",
+        "react/destructuring-assignment": "off",
+        "react/default-props-match-prop-types": "off",
+        "react/jsx-curly-brace-presence": "off",
+        "react/no-access-state-in-setstate": "off",
+        "react/static-property-placement": "off",
+        "react/state-in-constructor": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/jsx-fragments": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/mouse-events-have-key-events": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "jsx-a11y/label-has-for": "off",
+        "jsx-a11y/control-has-associated-label": "off",
+        "no-console": 2,
+        "no-undef": 0,
+        "no-use-before-define": "off",
+        "func-names": [
+            "error", "as-needed", { "generators": "never" }
+        ]
+    },
+    "globals": {}
+}

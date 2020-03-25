@@ -1,9 +1,19 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
-    'plugin:@typescript-eslint/recommended',
+    'airbnb',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+    'prettier',
     'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
+    'prettier/react'
+  ],
+  plugins: [
+        'react',
+        'react-hooks',
+        'prettier',
+        '@typescript-eslint',
   ],
   parserOptions: {
     ecmaVersion: 2018,
