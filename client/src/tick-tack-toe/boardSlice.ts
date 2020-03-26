@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, Dispatch } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
 import { range } from '../utils';
 import { Move, ExtendedMove, Player, Outcome, OutcomeType, CellState, CellStateType } from './boardTypes';
+import * as tickTackToeService from './tickTackToeService';
 
 type BoardState = {
     moveHistory: Move[];
@@ -50,25 +51,22 @@ export const {
     restartGameSuccess,
 } = slice.actions;
 
-const initBoard = (): AppThunk => (dispatch: Dispatch) => {
+const initBoard = (): AppThunk => async (dispatch: Dispatch) => {
     dispatch(initMoveHistoryPending());
-    setTimeout(() => {
-        dispatch(initMoveHistorySuccess([]));
-    }, 100);
+    const moveHistory = await tickTackToeService.fetchMoveHistory();
+    dispatch(initMoveHistorySuccess(moveHistory));
 };
 
-const cellClicked = (column: number, row: number): AppThunk => (dispatch: Dispatch) => {
+const cellClicked = (column: number, row: number): AppThunk => async (dispatch: Dispatch) => {
     dispatch(registerMovePending());
-    setTimeout(() => {
-        dispatch(registerMoveSuccess({ row, column }));
-    }, 100);
+    await tickTackToeService.pushMove({ column, row });
+    dispatch(registerMoveSuccess({ row, column }));
 };
 
-const resetClicked = (): AppThunk => (dispatch: Dispatch) => {
+const resetClicked = (): AppThunk => async (dispatch: Dispatch) => {
     dispatch(restartGamePending());
-    setTimeout(() => {
-        dispatch(restartGameSuccess());
-    }, 100);
+    await tickTackToeService.resetGame();
+    dispatch(restartGameSuccess());
 };
 
 export const actions = {
