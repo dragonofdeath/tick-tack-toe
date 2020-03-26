@@ -76,17 +76,17 @@ export const actions = {
 };
 
 const checkForWinner = (moves: ExtendedMove[], lastMove: ExtendedMove): ExtendedMove[] | null => {
-    const playerMoves = moves.filter(a => a.player === lastMove.player);
-    const rowMoves = playerMoves.filter(a => a.row === lastMove.row);
+    const playerMoves = moves.filter(m => m.player === lastMove.player);
+    const rowMoves = playerMoves.filter(m => m.row === lastMove.row);
     if (rowMoves.length === 3) return rowMoves;
-    const columnMoves = playerMoves.filter(a => a.column === lastMove.column);
+    const columnMoves = playerMoves.filter(m => m.column === lastMove.column);
     if (columnMoves.length === 3) return columnMoves;
 
-    const diagonalLRMoves = playerMoves.filter(a => a.row === a.column);
+    const diagonalLRMoves = playerMoves.filter(m => m.row === m.column);
     if (diagonalLRMoves.length === 3) return diagonalLRMoves;
 
-    const diagonalRLMoves = playerMoves.filter(a => a.column === 2 - a.row);
-    if (diagonalRLMoves.length === 3) return diagonalLRMoves;
+    const diagonalRLMoves = playerMoves.filter(m => m.column === 2 - m.row);
+    if (diagonalRLMoves.length === 3) return diagonalRLMoves;
 
     return null;
 };
