@@ -74,16 +74,16 @@ const Board = () => {
                     Reset
                 </button>
             </div>
-            <div>
+            <pre>
                 <h2>Move log</h2>
-                <ul>
+                <ol style={{ width: 300, margin: 'auto' }}>
                     {moveHistory.map((move, index) => (
-                        <li key={index}>
+                        <li key={index} style={{ textAlign: 'left' }}>
                             {move.player}: column #{move.column + 1}, row #{move.row + 1}
                         </li>
                     ))}
-                </ul>
-            </div>
+                </ol>
+            </pre>
         </div>
     );
 };
