@@ -23,6 +23,7 @@ type Action = {
 export const getApp = () => {
     const app = express();
     app.use(bodyParser.json());
+    app.use(express.static('public'));
 
     const database = createDatabase<Action>();
 
