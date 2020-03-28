@@ -73,7 +73,7 @@ describe('tick tack toe app', () => {
         expect(getByTextInContainer(cells[7], '')).toBeInTheDocument();
         expect(getByTextInContainer(cells[8], '')).toBeInTheDocument();
 
-        const resetButton = getByText('Reset');
+        const resetButton = getByText('RESET');
         fireEvent.click(resetButton);
         expect(await findByText('Player "X" turn')).toBeInTheDocument();
     });

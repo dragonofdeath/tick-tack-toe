@@ -6,15 +6,19 @@ type Props = {
 };
 
 const MoveLog = ({ moveHistory }: Props) => (
-    <pre>
-        <h2>Move log</h2>
-        <ol style={{ width: 300, margin: 'auto' }}>
-            {moveHistory.map((move, index) => (
-                <li key={index} style={{ textAlign: 'left' }}>
-                    {move.player}: column #{move.column + 1}, row #{move.row + 1}
-                </li>
-            ))}
-        </ol>
+    <pre className="m-auto text-white bg-black rounded-sm p-4 text-left" style={{ width: 300 }}>
+        <h2 className="font-bold mb-2">MOVE LOG</h2>
+        {!moveHistory.length ? (
+            'No moves where done yet'
+        ) : (
+            <ol>
+                {moveHistory.map((move, index) => (
+                    <li key={index}>
+                        {move.player}: column #{move.column + 1}, row #{move.row + 1}
+                    </li>
+                ))}
+            </ol>
+        )}
     </pre>
 );
 

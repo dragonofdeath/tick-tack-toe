@@ -19,8 +19,8 @@ const TickTackToePage = () => {
     }, [dispatch]);
 
     return (
-        <div style={{ paddingTop: 50 }}>
-            <h1>tick tack toe</h1>
+        <div className="pt-10 text-center">
+            <h1 className="text-6xl">tick tack toe</h1>
             <GameStatus activePlayer={activePlayer} outcome={outcome} />
             <Board
                 movesAllowed={movesAllowed}
@@ -29,9 +29,13 @@ const TickTackToePage = () => {
                     dispatch(actions.cellClicked(columnIndex, rowIndex));
                 }}
             />
-            <div>
-                <button disabled={syncing} onClick={() => dispatch(actions.resetClicked())}>
-                    Reset
+            <div className="mt-6 mb-10">
+                <button
+                    className="text-xl text-white bg-black px-4 py-2 rounded-sm hover:bg-gray-800"
+                    disabled={syncing}
+                    onClick={() => dispatch(actions.resetClicked())}
+                >
+                    RESET
                 </button>
             </div>
             <MoveLog moveHistory={moveHistory} />

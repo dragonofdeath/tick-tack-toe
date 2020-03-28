@@ -13,15 +13,10 @@ const Cell = ({ cellState, onClick, testId }: Props) => {
         <div
             onClick={onClick}
             data-testid={testId}
-            style={{
-                cursor: onClick ? 'pointer' : 'default',
-                width: 100,
-                height: 100,
-                fontSize: 50,
-                padding: 15,
-                border: '2px solid black',
-                fontWeight: cellState.type === CellStateType.USED_WINNING ? 800 : 400,
-            }}
+            className={`text-5xl p-4 border-2 border-black ${
+                onClick ? 'cursor-pointer hover:bg-gray-200' : 'cursor-default'
+            } ${cellState.type === CellStateType.USED_WINNING ? 'font-bold text-red-800' : 'font-normal'}`}
+            style={{ width: 100, height: 100 }}
         >
             {cellText}
         </div>

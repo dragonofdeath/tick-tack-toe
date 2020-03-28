@@ -7,7 +7,7 @@ type Props = {
 };
 
 const GameStatus = ({ activePlayer, outcome }: Props) => (
-    <h2>
+    <h2 className="text-2xl pb-4">
         {(() => {
             switch (outcome.type) {
                 case OutcomeType.ONGOING:
