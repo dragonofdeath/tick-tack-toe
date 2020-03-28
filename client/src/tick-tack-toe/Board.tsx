@@ -3,11 +3,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectors, actions } from './boardSlice';
 import { CellState, CellStateType, Player, Outcome, OutcomeType } from './boardTypes';
 
-const Cell = ({ cellState, onClick }: { cellState: CellState; onClick?: () => void }) => {
+const Cell = ({
+    cellState,
+    onClick,
+    testId,
+}: {
+    cellState: CellState;
+    onClick?: () => void;
+    testId: string;
+}) => {
     const cellText = cellState.type === CellStateType.EMPTY ? '' : cellState.player;
     return (
         <div
             onClick={onClick}
+            data-testid={testId}
             style={{
                 cursor: onClick ? 'pointer' : 'default',
                 width: 100,
@@ -51,7 +60,8 @@ const Board = () => {
 
     return (
         <div>
-            <h1>{getGameStatusText(activePlayer, outcome)}</h1>
+            <h1>tick tack toe</h1>
+            <h2>{getGameStatusText(activePlayer, outcome)}</h2>
             <div style={{ border: '4px solid black', display: 'inline-block' }}>
                 {cells.map((row, rowIndex) => (
                     <div key={rowIndex} style={{ display: 'flex' }}>
@@ -64,6 +74,7 @@ const Board = () => {
                                         ? () => dispatch(actions.cellClicked(columnIndex, rowIndex))
                                         : undefined
                                 }
+                                testId={`cell-${columnIndex}${rowIndex}`}
                             />
                         ))}
                     </div>
