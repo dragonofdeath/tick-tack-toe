@@ -1,12 +1,12 @@
 import React from 'react';
 
 import './App.css';
-import Board from './tick-tack-toe/Board';
+import TickTackToePage from './tick-tack-toe/TickTackToePage';
 
 function App() {
     return (
-        <div className="App" style={{ padding: 100 }}>
-            <Board />
+        <div className="App">
+            <TickTackToePage />
         </div>
     );
 }
