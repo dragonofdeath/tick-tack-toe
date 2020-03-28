@@ -39,7 +39,7 @@ describe('tick tack toe app', () => {
     });
 
     it('shows correct turns and result for scenario when player X winds ', async () => {
-        const { getAllByTestId, findByText } = render(
+        const { getAllByTestId, findByText, getByText } = render(
             <Provider store={store}>
                 <App />
             </Provider>
@@ -70,8 +70,12 @@ describe('tick tack toe app', () => {
         expect(getByTextInContainer(cells[4], 'X')).toBeInTheDocument();
         expect(getByTextInContainer(cells[5], 'O')).toBeInTheDocument();
         expect(getByTextInContainer(cells[6], 'X')).toBeInTheDocument();
-        expect(getByTextInContainer(cells[7], content => content === '')).toBeInTheDocument();
-        expect(getByTextInContainer(cells[8], content => content === '')).toBeInTheDocument();
+        expect(getByTextInContainer(cells[7], '')).toBeInTheDocument();
+        expect(getByTextInContainer(cells[8], '')).toBeInTheDocument();
+
+        const resetButton = getByText('Reset');
+        fireEvent.click(resetButton);
+        expect(await findByText('Player "X" turn')).toBeInTheDocument();
     });
 
     it('shows correct turns and result for scenario when player O winds ', async () => {
