@@ -18,55 +18,36 @@ export const slice = createSlice({
     name: 'board',
     initialState,
     reducers: {
-        registerMovePending: state => {
+        statePending: state => {
             state.syncing = true;
         },
-        registerMoveSuccess: (state, action: PayloadAction<Move>) => {
-            state.moveHistory.push(action.payload);
-            state.syncing = false;
-        },
-        initMoveHistoryPending: state => {
-            state.syncing = true;
-        },
-        initMoveHistorySuccess: (state, action: PayloadAction<Move[]>) => {
+        loadHistorySuccess: (state, action: PayloadAction<Move[]>) => {
             state.moveHistory = action.payload;
-            state.syncing = false;
-        },
-        restartGamePending: state => {
-            state.syncing = true;
-        },
-        restartGameSuccess: state => {
-            state.moveHistory = [];
             state.syncing = false;
         },
     },
 });
 
-export const {
-    registerMovePending,
-    registerMoveSuccess,
-    initMoveHistoryPending,
-    initMoveHistorySuccess,
-    restartGamePending,
-    restartGameSuccess,
-} = slice.actions;
+export const { statePending, loadHistorySuccess } = slice.actions;
 
 const initBoard = (): AppThunk => async (dispatch: Dispatch) => {
-    dispatch(initMoveHistoryPending());
+    dispatch(statePending());
     const moveHistory = await tickTackToeService.fetchMoveHistory();
-    dispatch(initMoveHistorySuccess(moveHistory));
+    dispatch(loadHistorySuccess(moveHistory));
 };
 
 const cellClicked = (column: number, row: number): AppThunk => async (dispatch: Dispatch) => {
-    dispatch(registerMovePending());
+    dispatch(statePending());
     await tickTackToeService.pushMove({ column, row });
-    dispatch(registerMoveSuccess({ row, column }));
+    const moveHistory = await tickTackToeService.fetchMoveHistory();
+    dispatch(loadHistorySuccess(moveHistory));
 };
 
 const resetClicked = (): AppThunk => async (dispatch: Dispatch) => {
-    dispatch(restartGamePending());
+    dispatch(statePending());
     await tickTackToeService.resetGame();
-    dispatch(restartGameSuccess());
+    const moveHistory = await tickTackToeService.fetchMoveHistory();
+    dispatch(loadHistorySuccess(moveHistory));
 };
 
 export const actions = {

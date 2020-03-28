@@ -3,14 +3,26 @@ import { render, fireEvent, getByText as getByTextInContainer } from '@testing-l
 import { Provider } from 'react-redux';
 import { store } from './store';
 import App from './App';
+import { Move } from './tick-tack-toe/boardTypes';
+import { resetGame } from './tick-tack-toe/tickTackToeService';
 
-jest.mock('./tick-tack-toe/tickTackToeService.ts', () => ({
-    fetchMoveHistory: () => [],
-    pushMove: () => ({}),
-    resetGame: () => ({}),
-}));
+jest.mock('./tick-tack-toe/tickTackToeService.ts', () => {
+    let moves: Move[] = [];
+    return {
+        fetchMoveHistory: () => moves,
+        pushMove: (move: Move) => {
+            moves = [...moves, move];
+        },
+        resetGame: () => {
+            moves = [];
+        },
+    };
+});
 
 describe('tick tack toe app', () => {
+    beforeEach(() => {
+        resetGame();
+    });
     it('renders all required elements', () => {
         const { getByText, getAllByTestId } = render(
             <Provider store={store}>
