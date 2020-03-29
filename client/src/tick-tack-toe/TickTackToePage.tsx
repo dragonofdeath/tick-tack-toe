@@ -8,6 +8,7 @@ import GameStatus from './GameStatus';
 const TickTackToePage = () => {
     const activePlayer = useSelector(selectors.activePlayer);
     const syncing = useSelector(selectors.syncing);
+    const error = useSelector(selectors.error);
     const moveHistory = useSelector(selectors.moveHistory);
     const outcome = useSelector(selectors.outcome);
     const movesAllowed = useSelector(selectors.movesAllowed);
@@ -21,7 +22,11 @@ const TickTackToePage = () => {
     return (
         <div className="pt-10 text-center">
             <h1 className="text-6xl">tick tack toe</h1>
-            <GameStatus activePlayer={activePlayer} outcome={outcome} />
+            {error ? (
+                <h2 className="text-2xl pb-4 text-red-800">Error happened while syncing to server</h2>
+            ) : (
+                <GameStatus activePlayer={activePlayer} outcome={outcome} />
+            )}
             <Board
                 movesAllowed={movesAllowed}
                 cells={cells}

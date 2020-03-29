@@ -7,11 +7,13 @@ import * as tickTackToeService from './tickTackToeService';
 type BoardState = {
     moveHistory: Move[];
     syncing: boolean;
+    error: boolean;
 };
 
 const initialState: BoardState = {
     moveHistory: [],
     syncing: false,
+    error: false,
 };
 
 export const slice = createSlice({
@@ -20,34 +22,58 @@ export const slice = createSlice({
     reducers: {
         statePending: state => {
             state.syncing = true;
+            state.error = false;
         },
         loadHistorySuccess: (state, action: PayloadAction<Move[]>) => {
             state.moveHistory = action.payload;
+            state.syncing = false;
+            state.error = false;
+        },
+        syncFailed: state => {
+            state.error = true;
             state.syncing = false;
         },
     },
 });
 
-export const { statePending, loadHistorySuccess } = slice.actions;
+export const { statePending, loadHistorySuccess, syncFailed } = slice.actions;
 
 const initBoard = (): AppThunk => async (dispatch: Dispatch) => {
     dispatch(statePending());
-    const moveHistory = await tickTackToeService.fetchMoveHistory();
-    dispatch(loadHistorySuccess(moveHistory));
+    try {
+        const moveHistory = await tickTackToeService.fetchMoveHistory();
+        dispatch(loadHistorySuccess(moveHistory));
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        dispatch(syncFailed());
+    }
 };
 
 const cellClicked = (column: number, row: number): AppThunk => async (dispatch: Dispatch) => {
     dispatch(statePending());
-    await tickTackToeService.pushMove({ column, row });
-    const moveHistory = await tickTackToeService.fetchMoveHistory();
-    dispatch(loadHistorySuccess(moveHistory));
+    try {
+        await tickTackToeService.pushMove({ column, row });
+        const moveHistory = await tickTackToeService.fetchMoveHistory();
+        dispatch(loadHistorySuccess(moveHistory));
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        dispatch(syncFailed());
+    }
 };
 
 const resetClicked = (): AppThunk => async (dispatch: Dispatch) => {
     dispatch(statePending());
-    await tickTackToeService.resetGame();
-    const moveHistory = await tickTackToeService.fetchMoveHistory();
-    dispatch(loadHistorySuccess(moveHistory));
+    try {
+        await tickTackToeService.resetGame();
+        const moveHistory = await tickTackToeService.fetchMoveHistory();
+        dispatch(loadHistorySuccess(moveHistory));
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        dispatch(syncFailed());
+    }
 };
 
 export const actions = {
@@ -129,10 +155,12 @@ export const selectors = {
 
     syncing: (state: RootState) => state.board.syncing,
 
+    error: (state: RootState) => state.board.error,
+
     activePlayer: (state: RootState) => (state.board.moveHistory.length % 2 ? Player.O : Player.X),
 
     movesAllowed: (state: RootState) =>
-        !state.board.syncing && selectors.outcome(state).type === OutcomeType.ONGOING,
+        !state.board.syncing && !state.board.error && selectors.outcome(state).type === OutcomeType.ONGOING,
 };
 
 export default slice.reducer;
