@@ -1,14 +1,16 @@
 FROM node:12.16.1-alpine as client-builder
 WORKDIR /usr/src/app
 COPY ./client/package.json .
-RUN yarn install
+COPY ./client/yarn.lock .
+RUN yarn install --frozen-lockfile
 COPY ./client .
 RUN yarn build
 
 FROM node:12.16.1-alpine as server-builder
 WORKDIR /usr/src/app
 COPY ./server/package.json .
-RUN yarn install
+COPY ./server/yarn.lock .
+RUN yarn install --frozen-lockfile
 COPY ./server .
 RUN yarn build
 
